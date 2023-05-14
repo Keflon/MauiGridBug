@@ -12,7 +12,7 @@
 
     <Grid>
 
-        <Label ZIndex="5" InputTransparent="True" IsVisible="{z:Bind !IsToggled, Source={x:Reference theSwitch}}" TextColor="Coral">
+        <!--<Label ZIndex="5" InputTransparent="True" IsVisible="{z:Bind !IsToggled, Source={x:Reference theSwitch}}" TextColor="Coral">
             <Label.Text>
                 Use the Switch to swap between views.
 Both views are a Grid with RowDefinitions "*,*"
@@ -24,7 +24,7 @@ Windows: [BUG] The Grid cells appear to be the correct height but the Rectangles
             </Label.Text>
         </Label>
 
-        <Label ZIndex="5" IsVisible="{z:Bind IsToggled, Source={x:Reference theSwitch}}" TextColor="Coral">
+        <Label ZIndex="5" InputTransparent="True" IsVisible="{z:Bind IsToggled, Source={x:Reference theSwitch}}" TextColor="Coral">
             <Label.Text>
                 Use the Switch to swap between views.
 Both views are a Grid with RowDefinitions "*,*"
@@ -35,7 +35,15 @@ Android: [BUG] If this text has InputTransparent=True, it does not show.
 iOS: [BUG] The Grid cells expand to fit the Button, i.e.they are too big. (iPhone SE, simulator)
 Windows: [BUG] The Grid is 50/50, the Button is 500 in height, but the ScrollView is not scrollable.
             </Label.Text>
-        </Label>
+        </Label>-->
+
+<!-- Set VerticalOptions so the Label doesn't fill the whole screen and consume input even though InputTransparent=true. -->
+        <Label 
+            ZIndex="5" 
+            BackgroundColor="Cyan" 
+            VerticalOptions="Start"
+            InputTransparent="True"
+            Text="Explanatory text removed because InputTransparent='True' doesn't work, so the Label was consuming scroll-events. Please see the Readme for the text, or uncomment the text above this label."/>
 
         <Grid RowDefinitions="*,*" IsVisible="{z:Bind !IsToggled, Source={x:Reference theSwitch}}">
             <ScrollView Grid.Row="0" >
