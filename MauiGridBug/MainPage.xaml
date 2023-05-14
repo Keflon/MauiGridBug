@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:z="clr-namespace:FunctionZero.Maui.zBind.z;assembly=FunctionZero.Maui.zBind"
+             x:Class="MauiGridBug.MainPage">
+    <NavigationPage.TitleView>
+        <HorizontalStackLayout HorizontalOptions="Center">
+            <Label Text="Switch" Margin="0,5,50,5"/>
+            <Switch x:Name="theSwitch"/>
+        </HorizontalStackLayout>
+    </NavigationPage.TitleView>
+
+    <Grid>
+
+        <Label ZIndex="5" InputTransparent="True" IsVisible="{z:Bind !IsToggled, Source={x:Reference theSwitch}}" TextColor="Coral">
+            <Label.Text>
+                Use the Switch to swap between views.
+Both views are a Grid with RowDefinitions "*,*"
+In each, the Grid cells contain a ScrollView.           
+In this view, each ScrollView contains a Rectangle with a HeightRequest of 500
+Android: The Grid cells are 50/50 and the Rectangle can be scrolled within the ScrollView. (Pixel 5, Emulator)
+iOS: [BUG] The Grid cells expand to fit the Rectangle, i.e.they are too big. (iPhone SE, simulator)
+Windows: [BUG] The Grid cells appear to be the correct height but the Rectangles are minimal height.
+            </Label.Text>
+        </Label>
+
+        <Label ZIndex="5" IsVisible="{z:Bind IsToggled, Source={x:Reference theSwitch}}" TextColor="Coral">
+            <Label.Text>
+                Use the Switch to swap between views.
+Both views are a Grid with RowDefinitions "*,*"
+In each, the Grid cells contain a ScrollView.   
+In this view, each ScrollView contains a Button with a HeightRequest of 500
+Android: The Grid cells are 50/50 and the Buttons can be scrolled within the ScrollView. 
+Android: [BUG] If this text has InputTransparent=True, it does not show.
+iOS: [BUG] The Grid cells expand to fit the Button, i.e.they are too big. (iPhone SE, simulator)
+Windows: [BUG] The Grid is 50/50, the Button is 500 in height, but the ScrollView is not scrollable.
+            </Label.Text>
+        </Label>
+
+        <Grid RowDefinitions="*,*" IsVisible="{z:Bind !IsToggled, Source={x:Reference theSwitch}}">
+            <ScrollView Grid.Row="0" >
+                <Rectangle HeightRequest="500" BackgroundColor="Blue"/>
+            </ScrollView>
+
+            <ScrollView Grid.Row="1" >
+                <Rectangle  HeightRequest="500" BackgroundColor="Yellow" />
+            </ScrollView>
+        </Grid>
+
+        <Grid RowDefinitions="*,*" IsVisible="{z:Bind IsToggled, Source={x:Reference theSwitch}}">
+            <ScrollView Grid.Row="0" >
+                <Button Text="A Button in a ScrollView" HeightRequest="500" BackgroundColor="Blue"/>
+            </ScrollView>
+
+            <ScrollView Grid.Row="1" >
+                <Button Text="A Button in a ScrollView" HeightRequest="500" TextColor="Blue" BackgroundColor="Yellow" />
+            </ScrollView>
+        </Grid>
+
+    </Grid>
+</ContentPage>
